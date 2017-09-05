@@ -6,6 +6,12 @@ By Patrick Roche | [github.com/plr108](https://github.com/plr108) | [patrick.l.r
 ### Project Overview
 This repository contains my submission for the Logs Analysis project of the
 [Udacity Full Stack Web Developer Nanodegree](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd004).
+The project uses psycopg2 to run queries against a mock PostgreSQL database
+for a fictional news website.  The queries provide answers to the following
+questions about the database:
+1. What are the three most popular articles of all time on the news site?
+2. Who are the most popular article authors?
+3. On what days did over one percent of page requests result in errors?
 
 ### Installation Prerequisites
 The following software is required to run this project.  
@@ -14,12 +20,12 @@ See the provided links for download and install instructions
 * Vagrant: https://www.vagrantup.com/
 * VirtualBox: https://www.virtualbox.org/wiki/Downloads
 
-### Installing the Repository and the News Database
-This repository must be cloned to a subdirectory of the vagrant install folder.  
-The news database also must be installed in the same directory as this repository.  
-If you are reviewing my project I assume you have this database;
-I could not find the database online and the project instructions indicated
-that the database was not to be included in this repository :)
+Download [Udacity's Vagrant Configuration File](https://d17h27t6h515a5.cloudfront.net/topher/2017/August/59822701_fsnd-virtual-machine/fsnd-virtual-machine.zip)
+for this project and unzip the contents to the desired location.
+
+### Installing the Repository
+This repository must be cloned to a subdirectory of the vagrant install folder, i.e.,
+in the /FSND-Virtual-Machine/vagrant directory created by unizipping the Vagrant configuration file.
 
 ### Starting the Virtual Machine
 In your console run the following commands:
@@ -27,11 +33,16 @@ In your console run the following commands:
 2. vagrant ssh
 3. cd /vagrant
 
+### Installing the Database
+The news database also must be installed in the same directory as this repository.
+A zip file containing the database is available [here](https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip).  
+Unzip the database (newsdata.sql file).  Navigate to the folder containing the
+database (and this repository) and run `psql -d news -f newsdata.sql` to run
+PostgreSQL and initialize the database.
+
 ### Required Database Views
 Several database views must be created prior to running the reporting tool.
-After starting the virtual machine, navigate to the folder containing this
-repository (and the news database) and run `psql news` to access the database.
-Enter the following commands to create the required views:
+Enter the following SQL statements in PostgreSQL to create the required views:
 
 `CREATE VIEW responses AS
 SELECT status, COUNT(*) AS responses, DATE_TRUNC('day', time) AS date
