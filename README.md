@@ -57,4 +57,5 @@ GROUP BY fails, requests, daily_requests.date;`
 Running the Reporting Tool
 After creating the views, exit the database using the command `\q`.  
 Run the command `python3 news-data-reporting.py`.  
-The results listed in the output.txt file should be printed to the console.
+The results printed to the console should match the contents of output.txt
+in this repository.
