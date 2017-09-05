@@ -44,7 +44,7 @@ def report_most_popular_authors():
     FROM authors, (
       SELECT articles.author, count(*) AS article_views
       FROM articles, log
-      WHERE log.path LIKE CONCAT('%',articles.slug,'%')
+      WHERE log.path = CONCAT('/article/',articles.slug)
       GROUP BY articles.author
       ) AS author_views
     WHERE authors.id = author_views.author
