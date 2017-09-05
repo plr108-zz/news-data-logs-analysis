@@ -16,13 +16,7 @@ def print_rows(rows):
         print('No results found')
     else:
         for row in rows:
-            row_string = None
-            for value in row:
-                if value == row[0]:
-                    row_string = str(value)
-                else:
-                    row_string = row_string + ' -- ' + str(value)
-            print(row_string)
+            print('{} -- {}'.format(row[0], row[1]))
     print('')
 
 
