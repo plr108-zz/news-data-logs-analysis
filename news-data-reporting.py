@@ -60,7 +60,7 @@ def report_high_error_days():
     print("Days where over 1% of requests failed:")
     print_rows(rows)
 
-
-report_most_popular_articles()
-report_most_popular_authors()
-report_high_error_days()
+if __name__ == '__main__':
+    report_most_popular_articles()
+    report_most_popular_authors()
+    report_high_error_days()
