@@ -30,7 +30,7 @@ def report_most_popular_articles():
     articles_query = '''
     SELECT articles.title, CONCAT(COUNT(*),' views') AS views
     FROM articles, log
-    WHERE log.path LIKE CONCAT('%',articles.slug,'%')
+    WHERE log.path = CONCAT('/article/',articles.slug)
     GROUP BY articles.title
     ORDER BY count(*) DESC LIMIT 3;'''
     rows = select(articles_query)
