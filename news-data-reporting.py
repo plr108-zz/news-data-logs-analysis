@@ -27,31 +27,41 @@ def print_rows(rows):
 
 
 def report_most_popular_articles():
-    articles_query = '''select articles.title, concat(count(*),' views') as
-    views from articles, log where log.path like concat('%',articles.slug,'%')
-    group by articles.title order by count(*) desc limit 3;'''
+    articles_query = '''
+    SELECT articles.title, CONCAT(COUNT(*),' views') AS views
+    FROM articles, log
+    WHERE log.path LIKE CONCAT('%',articles.slug,'%')
+    GROUP BY articles.title
+    ORDER BY count(*) DESC LIMIT 3;'''
     rows = select(articles_query)
     print("The three most popular articles of all time:")
     print_rows(rows)
 
 
 def report_most_popular_authors():
-    authors_query = '''select authors.name, concat(author_views.article_views,
-    ' views') as views from authors, (select articles.author, count(*) as
-    article_views from articles, log where log.path like
-    concat('%',articles.slug,'%') group by articles.author) as author_views
-    where authors.id = author_views.author group by authors.name, views,
-    author_views.article_views order by author_views.article_views desc;'''
+    authors_query = '''
+    SELECT authors.name, CONCAT(author_views.article_views,' views') AS views
+    FROM authors, (
+      SELECT articles.author, count(*) AS article_views
+      FROM articles, log
+      WHERE log.path LIKE CONCAT('%',articles.slug,'%')
+      GROUP BY articles.author
+      ) AS author_views
+    WHERE authors.id = author_views.author
+    GROUP BY authors.name, views, author_views.article_views
+    ORDER BY author_views.article_views DESC;'''
     rows = select(authors_query)
     print("The most popular authors of all time:")
     print_rows(rows)
 
 
 def report_high_error_days():
-    high_error_days_query = '''select to_char(date,'FMMonth FMDD, YYYY') as
-    date, concat(round(fail_percentage*100,1),'% errors') as errors from
-    daily_fail_percentage where fail_percentage > .01 order by
-    daily_fail_percentage.date;'''
+    high_error_days_query = '''
+    SELECT TO_CHAR(date,'FMMonth FMDD, YYYY') AS date,
+      CONCAT(ROUND(fail_percentage*100,1),'% errors') AS errors
+    FROM daily_fail_percentage
+    WHERE fail_percentage > .01
+    ORDER BY daily_fail_percentage.date;'''
     rows = select(high_error_days_query)
     print("Days where over 1% of requests failed:")
     print_rows(rows)
